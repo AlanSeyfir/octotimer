@@ -2,6 +2,7 @@ import octoLogo from './assets/octo_1_2.png';
 import textLogo_White from './assets/logo_texto_2.png';
 import svg_Left from './assets/svg/left.svg';
 import svg_User from './assets/svg/user.svg';
+import sound from './assets/music/music end sound.mp3';
 import './App.css';
 import { useEffect, useState } from 'react';
 
@@ -24,6 +25,7 @@ function App() {
       clearInterval(interval);
       setIsActive(false);
       alert(text);
+      <audio src={sound}></audio>;
     }
     return () => clearInterval(interval);
   }, [isActive, minutes, seconds, text]);
@@ -42,7 +44,7 @@ function App() {
   };
 
   const handleInput = (e) => {
-    setText(event.target.value);
+    setText(e.target.value);
   };
 
   return (
