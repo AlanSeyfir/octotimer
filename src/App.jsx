@@ -3,20 +3,68 @@ import textLogo_White from './assets/logo_texto_2.png';
 import svg_Left from './assets/svg/left.svg';
 import svg_User from './assets/svg/user.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [minutes, setMinutes] = useState('');
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    let interval;
+    if (isActive && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (isActive && seconds === 0 && parseInt(minutes) > 0) {
+      setMinutes(parseInt(minutes) - 1);
+      setSeconds(59);
+    } else if (isActive && seconds === 0 && parseInt(minutes) === 0) {
+      clearInterval(interval);
+      setIsActive(false);
+      alert('Vuelvan a la sala');
+    }
+    return () => clearInterval(interval);
+  }, [isActive, minutes, seconds]);
+
+  const handleStart = () => {
+    if (parseInt(minutes) >= 0) {
+      setIsActive(true);
+    } else {
+      alert('Escriba solo numeros');
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setMinutes(event.target.value);
+    setSeconds(0);
+  };
+
   return (
     <>
       <main className="hero">
         <img className="hero__logo" src={octoLogo} alt="Octotimer logo" />
-        <h2 className="hero__text">15:00</h2>
+        <h2 className="hero__text">
+          {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+        </h2>
 
         <section className="hero__instructions">
           <div className="hero__instructions--container">
             <p className="light">Temporizador</p>
-            <input className="hero__input" type="text" />
+            <input
+              className="hero__input"
+              value={minutes}
+              onChange={handleInputChange}
+              type="text"
+              min="0"
+            />
             <div></div>
-            <button className="btn btn--Purple" type="button">
+            <button
+              onClick={handleStart}
+              className="btn btn--Purple"
+              type="button"
+            >
               Iniciar temporizador
             </button>
           </div>
@@ -31,8 +79,23 @@ function App() {
               <p className="bold text-left">
                 Número de usuarios finales conectados al timer
               </p>
-              <p className="hero__instructions__participants">5</p>
+              <p className="hero__instructions__participants">4</p>
             </div>
+            <img
+              className="hero__instructions--svg"
+              src={svg_User}
+              alt="User Icon svg"
+            />
+            <img
+              className="hero__instructions--svg"
+              src={svg_User}
+              alt="User Icon svg"
+            />
+            <img
+              className="hero__instructions--svg"
+              src={svg_User}
+              alt="User Icon svg"
+            />
             <img
               className="hero__instructions--svg"
               src={svg_User}
