@@ -11,6 +11,7 @@ function App() {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [text, setText] = useState('');
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     let interval;
@@ -25,7 +26,7 @@ function App() {
       clearInterval(interval);
       setIsActive(false);
       alert(text);
-      <audio src={sound}></audio>;
+      <audio src={sound} autoPlay></audio>;
     }
     return () => clearInterval(interval);
   }, [isActive, minutes, seconds, text]);
@@ -33,6 +34,7 @@ function App() {
   const handleStart = () => {
     if (parseInt(minutes) >= 0) {
       setIsActive(true);
+      setIsVisible(isVisible);
     } else {
       alert('Escriba solo numeros');
     }
