@@ -23,10 +23,10 @@ function App() {
     } else if (isActive && seconds === 0 && parseInt(minutes) === 0) {
       clearInterval(interval);
       setIsActive(false);
-      alert('Vuelvan a la sala');
+      alert(text);
     }
     return () => clearInterval(interval);
-  }, [isActive, minutes, seconds]);
+  }, [isActive, minutes, seconds, text]);
 
   const handleStart = () => {
     if (parseInt(minutes) >= 0) {
@@ -39,6 +39,10 @@ function App() {
   const handleInputChange = (event) => {
     setMinutes(event.target.value);
     setSeconds(0);
+  };
+
+  const handleInput = (e) => {
+    setText(event.target.value);
   };
 
   return (
@@ -70,9 +74,13 @@ function App() {
           </div>
           <div className="hero__instructions--container">
             <p className="bold">Mensaje al finalizar el tiempo</p>
-            <button className="btn" type="button">
-              Vuelvan a la sala
-            </button>
+            <input
+              className="hero__input btn"
+              value={text}
+              onChange={handleInput}
+              type="text"
+              placeholder="Mensaje"
+            />
           </div>
           <div className="hero__instructions--container">
             <div className="wrapper">
